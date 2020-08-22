@@ -21,3 +21,22 @@ var db = new RBEnterDataClassesDataContext();
 
             GridView1.DataSource = q;
             GridView1.DataBind();
+
+// Update Record using Linq query 
+// select using Id of table and update the record..
+
+using (var db = new RBEnterDataClassesDataContext())
+                        {
+                            var d = (from p in db.Units
+                                     where p.UnitId == w
+                                     select p.Units).SingleOrDefault();
+                            var cal = Convert.ToInt32(d) - Convert.ToInt32(TxtUnits.Text);
+
+                            var query = (from p in db.Units
+                                         where p.UnitId == w
+                                         select p).First();
+
+                            query.Units = Convert.ToInt32(cal);
+                            query.Total = Convert.ToInt32(TxtPrice.Text) * Convert.ToInt32(cal);
+                            db.SubmitChanges();
+                        }
